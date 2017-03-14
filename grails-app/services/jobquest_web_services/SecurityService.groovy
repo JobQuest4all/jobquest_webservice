@@ -7,9 +7,17 @@ import com.jobquest.security.*;
 class SecurityService {
 	def springSecurityService
 
+    LoginAuthenticity createLogin(String username, String password){
+        if(!username || !password){
+            return null
+        }
+
+        new LoginAuthenticity(username: username, password: password).save()
+    }
+
     LoginAuthenticity login(String username, String password) {
         if(!username || !password){
-            return false
+            return null
         }
 
     	def foundUser = LoginAuthenticity.findByUsername(username)

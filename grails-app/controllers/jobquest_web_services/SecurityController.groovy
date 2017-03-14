@@ -10,6 +10,25 @@ class SecurityController {
 	def log = LoggerFactory.getLogger("grails.app.controller.SecurityController")
 	def securityService
 	
+	def createNewUser(){
+		if(!verifyInput()) { return }
+
+		def newUser = securityService.createLogin(usernameFromRequest(), passwordFromRequest())
+
+		if(newUser){
+			render(contentType: JSON_CONTENT_TYPE) {
+					user(username: newUser.username, 
+						accessToken: newUser.accessToken,
+						passwordExpired: newUser.passwordExpired,
+						accountExpired: newUser.accountExpired,
+						accountLocked: newUser.accountLocked)
+				}
+		}else{
+			log.info "User not created: ${usernameFromRequest()}"
+			render(status: 500, text: "User not created: ${usernameFromRequest()}")
+		}
+	}
+
     def login(){
 		if(!verifyInput()) { return }
 

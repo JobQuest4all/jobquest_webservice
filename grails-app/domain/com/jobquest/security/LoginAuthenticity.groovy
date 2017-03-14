@@ -15,9 +15,9 @@ class LoginAuthenticity implements Serializable {
 	String password
 	String accessToken
 	boolean enabled = true
-	boolean accountExpired
-	boolean accountLocked
-	boolean passwordExpired
+	boolean accountExpired = false
+	boolean accountLocked = false
+	boolean passwordExpired = false
 
 	Set<Role> getAuthorities() {
 		LoginAuthenticityRole.findAllByLoginAuthenticity(this)*.role
@@ -45,8 +45,8 @@ class LoginAuthenticity implements Serializable {
 	}
 
 	static constraints = {
-		password blank: false, nullable: false
-		username blank: false, unique: true
+		password blank: false, nullable: false, minSize: 6
+		username blank: false, unique: true, minSize: 3, matches: '[\\p{Alnum}\\.]++'
 		accessToken blank: false, nullable: true
 	}
 
