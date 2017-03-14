@@ -1,4 +1,4 @@
-package com.jobquest
+package com.jobquest.security
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
