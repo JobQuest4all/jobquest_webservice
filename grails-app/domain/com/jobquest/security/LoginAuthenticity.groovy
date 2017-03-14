@@ -44,10 +44,8 @@ class LoginAuthenticity implements Serializable {
 		password = springSecurityService.encodePassword(password)
 	}
 
-	static transients = ['springSecurityService']
-
 	static constraints = {
-		password blank: false, password: true
+		password blank: false, nullable: false
 		username blank: false, unique: true
 		accessToken blank: false, nullable: true
 	}

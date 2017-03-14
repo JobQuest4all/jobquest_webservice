@@ -4,5 +4,5 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.jobquest.s
 grails.plugin.springsecurity.authority.className = 'com.jobquest.security.Role'
 grails.plugin.springsecurity.requestMap.className = 'com.jobquest.security.RequestMap'
 grails.plugin.springsecurity.securityConfigType = 'Requestmap'
-grails.plugin.springsecurity.rejectIfNoRule = true
+grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false

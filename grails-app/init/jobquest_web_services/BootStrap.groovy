@@ -9,12 +9,7 @@ class BootStrap {
 		def adminUser = new LoginAuthenticity(username: 'admin', password: 'admin123').save(failOnError: true)
   
 		new LoginAuthenticityRole(loginAuthenticity: adminUser, role: adminRole).save(failOnError: true)
-		
-		for (String url in [
-			'/security/**'
-			]) {
-		 new RequestMap(url: url, configAttribute: 'permitAll').save(failOnError: true)
-	  }
+		new RequestMap(url: '/**', configAttribute: 'permitAll').save(failOnError: true)
     }
     def destroy = {
     }
