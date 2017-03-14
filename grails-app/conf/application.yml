@@ -1,6 +1,12 @@
 ---
 server:
     contextPath: /jobquest
+    port: 8443
+    ssl:
+        enabled: true
+        key-store: ./grails-app/conf/security/jobquest.jks
+        key-store-password: "password"
+        key-alias: "selfsigned"
 grails:
     profile: web
     codegen:
