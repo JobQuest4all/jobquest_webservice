@@ -1,4 +1,4 @@
-package jobquest_web_services
+package com.jobquest
 
 class UrlMappings {
 

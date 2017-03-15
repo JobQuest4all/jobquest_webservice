@@ -1,4 +1,4 @@
-package jobquest_web_services
+package com.jobquest
 import com.jobquest.security.*
 import grails.plugin.springsecurity.annotation.Secured
 import org.slf4j.Logger;
@@ -63,17 +63,17 @@ class SecurityController {
 	private boolean verifyInput(){
 		if(!request.JSON){
 			render(status: 401, text: "user authentication failed: credentials malformed")
-			false
+			return false
 		}
 		
 		else if(!request.JSON.containsKey('username')){
 			render(status: 401, text: "user authentication failed: username missing")
-			false
+			return false
 		}
 
 		else if(!request.JSON.containsKey('password')){
 			render(status: 401, text: "user authentication failed: password missing")
-			false
+			return false
 		}
 
 		true

@@ -1,4 +1,4 @@
-package jobquest_web_services
+package com.jobquest
 
 import grails.transaction.Transactional
 import com.jobquest.security.*;
@@ -6,6 +6,10 @@ import com.jobquest.security.*;
 @Transactional
 class SecurityService {
 	def springSecurityService
+
+    LoginAuthenticity refreshLogin(String usernameInput, String accessTokenInput){
+        LoginAuthenticity.where{username == usernameInput && accessToken == accessTokenInput}.find()
+    }
 
     LoginAuthenticity createLogin(String username, String password){
         if(!username || !password){

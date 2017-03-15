@@ -5,11 +5,11 @@ class Candidate {
 	GreenCard:'Green Card', 
 	Visa: 'Visa']
 
-	String legalStatus
+	String legalStatus=''
 
     static constraints = {
     	person nullable: false, unique: true
-    	legalStatus blank: false
+    	legalStatus blank: true
     }
 
     Person person
