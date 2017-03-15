@@ -2,6 +2,7 @@ package com.jobquest.security
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import com.jobquest.*
 
 @EqualsAndHashCode(includes='username')
 @ToString(includes='username', includeNames=true, includePackage=false)
@@ -44,10 +45,13 @@ class LoginAuthenticity implements Serializable {
 		password = springSecurityService.encodePassword(password)
 	}
 
+	static hasOne = [person: Person]
+
 	static constraints = {
 		password blank: false, nullable: false, minSize: 6
 		username blank: false, unique: true, minSize: 3, matches: '[\\p{Alnum}\\.]++'
 		accessToken blank: false, nullable: true
+		person nullable: true
 	}
 
 	static mapping = {
