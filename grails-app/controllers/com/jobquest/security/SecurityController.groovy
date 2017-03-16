@@ -1,5 +1,4 @@
-package com.jobquest
-import com.jobquest.security.*
+package com.jobquest.security
 import grails.plugin.springsecurity.annotation.Secured
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

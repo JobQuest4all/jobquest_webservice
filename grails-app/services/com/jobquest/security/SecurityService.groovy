@@ -1,7 +1,6 @@
-package com.jobquest
+package com.jobquest.security
 
 import grails.transaction.Transactional
-import com.jobquest.security.*;
 
 @Transactional
 class SecurityService {

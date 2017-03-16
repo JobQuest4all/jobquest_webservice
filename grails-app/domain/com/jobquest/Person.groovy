@@ -1,6 +1,8 @@
 package com.jobquest
 import com.jobquest.security.*
+import groovy.transform.EqualsAndHashCode
 
+@EqualsAndHashCode(includeFields=true)
 class Person {
 
 	String firstName, lastName, email, phone

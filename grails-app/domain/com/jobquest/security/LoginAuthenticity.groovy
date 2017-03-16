@@ -6,19 +6,17 @@ import com.jobquest.*
 
 @EqualsAndHashCode(includes='username')
 @ToString(includes='username', includeNames=true, includePackage=false)
-class LoginAuthenticity implements Serializable {
-
-	private static final long serialVersionUID = 1
-
+class LoginAuthenticity  {
 	transient springSecurityService
+	static transients = ['springSecurityService']
 
 	String username
 	String password
 	String accessToken
 	boolean enabled = true
-	boolean accountExpired = false
-	boolean accountLocked = false
-	boolean passwordExpired = false
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
 
 	Set<Role> getAuthorities() {
 		LoginAuthenticityRole.findAllByLoginAuthenticity(this)*.role
@@ -27,7 +25,6 @@ class LoginAuthenticity implements Serializable {
 	def beforeInsert() {
 		encodePassword()
 		encodeAccessToken()
-		
 	}
 
 	def beforeUpdate() {
@@ -38,11 +35,15 @@ class LoginAuthenticity implements Serializable {
 	}
 
 	protected void encodeAccessToken(){
-		accessToken = springSecurityService.encodePassword(password)
+		accessToken = springSecurityService?.passwordEncoder ?
+            springSecurityService.encodePassword(password) :
+            password
 	}
 	
 	protected void encodePassword() {
-		password = springSecurityService.encodePassword(password)
+		password = springSecurityService?.passwordEncoder ?
+            springSecurityService.encodePassword(password) :
+            password
 	}
 
 	static hasOne = [person: Person]
