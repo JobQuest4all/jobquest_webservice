@@ -61,6 +61,7 @@ dependencies {
 	compile 'org.slf4j:slf4j-api:1.7.24'
 	compile 'ch.qos.logback:logback-classic:1.2.1'
 	compile 'ch.qos.logback:logback-core:1.2.1'
+    compile "org.grails.plugins:grails3-cors-interceptor:1.2.1"
 }
 
 bootRun {

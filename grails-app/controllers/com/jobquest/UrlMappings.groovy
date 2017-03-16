@@ -3,10 +3,15 @@ package com.jobquest
 class UrlMappings {
 
     static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
+        group "/security", {
+            group "/users", {
+                "/"(controller: "security", action: "createNewUser", method: "POST")
             }
+            "/login"(controller: "security", action: "login", method: "POST")
+        }
+
+        group "/people", {
+            "/candidates"(resources: 'candidate')
         }
 
         "/"(view:"/index")

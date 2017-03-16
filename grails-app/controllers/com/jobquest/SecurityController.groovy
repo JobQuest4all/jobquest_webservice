@@ -50,28 +50,23 @@ class SecurityController {
 	}
 
 	private String usernameFromRequest(){
-		request.JSON.get('username').toString()
+		params.username
 	}
 
 	protected String passwordFromRequest(){
-		request.JSON.get('password').toString()
+		params.password
 	}
 
 	/*
 	Verify input. If invalid, render 401 response and return flag.
 	*/
 	private boolean verifyInput(){
-		if(!request.JSON){
-			render(status: 401, text: "user authentication failed: credentials malformed")
-			return false
-		}
-		
-		else if(!request.JSON.containsKey('username')){
+		if(!usernameFromRequest()){
 			render(status: 401, text: "user authentication failed: username missing")
 			return false
 		}
 
-		else if(!request.JSON.containsKey('password')){
+		else if(!passwordFromRequest()){
 			render(status: 401, text: "user authentication failed: password missing")
 			return false
 		}

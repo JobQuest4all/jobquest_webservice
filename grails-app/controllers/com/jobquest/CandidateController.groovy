@@ -8,12 +8,8 @@ class CandidateController {
 	PeopleService peopleService
 	def log = LoggerFactory.getLogger("grails.app.controller.CandidateController")
 
-    def create() { 
+    def save() { 
 		if(!verifyInput()) { return }
-		else if(!request.JSON){
-			render(contentType: JSON_CONTENT_TYPE){}
-			return
-		}	
 
 		log.info "username from request: ${usernameFromRequest()}"
 		log.info "access-token from request: ${accessTokenFromRequest()}"
@@ -58,31 +54,31 @@ class CandidateController {
     }
 
     private String phoneFromRequest(){
-    	request.JSON?.get('phone').toString()
+    	params.phone
     }
 
     private String legalStatusFromRequest(){
-    	request.JSON?.get('legalStatus').toString()
+    	params.legalStatus
     }
 
     private String emailFromRequest(){
-    	request.JSON?.get('email').toString()
+    	params.email
     }
 
     private String lastNameFromRequest(){
-    	request.JSON?.get('lastName').toString()
+    	params.lastName
     }
 
     private String firstNameFromRequest(){
-    	request.JSON?.get('firstName').toString()
+    	params.firstName
     }
 
     private String accessTokenFromRequest(){
-    	request.JSON?.get('accessToken').toString()
+    	params.accessToken
     }
 
     private String usernameFromRequest(){
-    	request.JSON?.get('username').toString()
+    	params.username
     }
 
     private boolean verifyInput(){

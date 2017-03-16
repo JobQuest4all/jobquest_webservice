@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  title: JobQuest API
+  description: SaaS for multiple devices
+  version: "1.0.0"
+host: localhost:8443
+basePath: /jobquest
+schemes: 
+  - https
+produces:
+  - application/json
+consumes:
+  - application/x-www-form-urlencoded
+paths:
+  /security/users:
+    post:
+      summary: Create new user to login
+      parameters:
+        - name: username
+          in: formData
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+      tags:
+        - Create a new user
+      responses:
+        200:
+          description: newly-created user
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/User'
+  /security/login:
+    post:
+      summary: login a user
+      tags:
+        - Login a user
+      parameters:
+        - name: username
+          in: formData
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: newly-created user
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/User'
+  /people/candidates:
+    post:
+      summary: create a candidate
+      tags:
+        - Create a candidate
+      parameters:
+        - name: username
+          in: formData
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+        - name: firstName
+          in: formData
+          type: string
+          required: true
+        - name: lastName
+          in: formData
+          type: string
+          required: true
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: phone
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: newly-created user
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Candidate'
+definitions:
+  User:
+    type: object
+    properties:
+      username: 
+        type: string
+      password:
+        type: string
+  Person:
+    type: object
+    allOf:
+      - $ref: '#/definitions/User'
+      - properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+          email:
+            type: string
+          phone:
+            type: string
+  Candidate:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Person'
+      - properties:
+          legalStatus:
+            type: string
+            enum:
+              - US Citizen
+              - Visa
+              - Green Card

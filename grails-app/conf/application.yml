@@ -9,6 +9,9 @@ server:
         key-alias: "selfsigned"
 grails:
     profile: web
+    gorm:
+            failOnError: true
+            autoFlush: true
     codegen:
         defaultPackage: jobquest_web_services
     spring:
