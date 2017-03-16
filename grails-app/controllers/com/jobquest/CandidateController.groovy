@@ -1,6 +1,7 @@
 package com.jobquest
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static grails.async.web.WebPromises.*
 
 class CandidateController {
 	static String JSON_CONTENT_TYPE='application/json'
@@ -8,49 +9,51 @@ class CandidateController {
 	PeopleService peopleService
 	def log = LoggerFactory.getLogger("grails.app.controller.CandidateController")
 
-    def save() { 
-		if(!verifyInput()) { return }
+    def save() {
+    	task{
+			if(!verifyInput()) { return }
 
-		log.info "username from request: ${usernameFromRequest()}"
-		log.info "access-token from request: ${accessTokenFromRequest()}"
-		log.info "firstName from request: ${firstNameFromRequest()}"
-		log.info "lastName from request: ${lastNameFromRequest()}"
-		log.info "email from request: ${emailFromRequest()}"
-		log.info "phone from request: ${phoneFromRequest()}"
+			log.info "username from request: ${usernameFromRequest()}"
+			log.info "access-token from request: ${accessTokenFromRequest()}"
+			log.info "firstName from request: ${firstNameFromRequest()}"
+			log.info "lastName from request: ${lastNameFromRequest()}"
+			log.info "email from request: ${emailFromRequest()}"
+			log.info "phone from request: ${phoneFromRequest()}"
 
-		def foundUser = securityService.refreshLogin(usernameFromRequest(), accessTokenFromRequest())
+			def foundUser = securityService.refreshLogin(usernameFromRequest(), accessTokenFromRequest())
 
-		if(!foundUser){
-			log.info "[CandidateController] User not found: ${usernameFromRequest()}"
-			render(status: 401, text: "user authentication failed: user(${usernameFromRequest}) not found")
-			return false
+			if(!foundUser){
+				log.info "[CandidateController] User not found: ${usernameFromRequest()}"
+				render(status: 401, text: "user authentication failed: user(${usernameFromRequest}) not found")
+				return false
+			}
+
+			log.info "Found user: ${foundUser.username}"
+
+			def person = peopleService.createPerson(foundUser, [firstName: firstNameFromRequest(),
+				lastName: lastNameFromRequest(),
+				email: emailFromRequest(),
+				phone: phoneFromRequest()
+				])
+
+			log.info "Person created: ${person.firstName} ${person.lastName}"
+
+			def candidateObj = peopleService.createCandidate(person, [legalStatus: legalStatusFromRequest()])
+
+			log.info "Candidate created for person named ${person.firstName} ${person.lastName}"
+
+			render(contentType: JSON_CONTENT_TYPE) {
+						candidate(username: foundUser.username, 
+							accessToken: foundUser.accessToken,
+							passwordExpired: foundUser.passwordExpired,
+							accountExpired: foundUser.accountExpired,
+							accountLocked: foundUser.accountLocked,
+							firstName: person.firstName,
+							lastName: person.lastName,
+							email: person.email,
+							legalStatus: candidateObj.legalStatus)
+					}
 		}
-
-		log.info "Found user: ${foundUser.username}"
-
-		def person = peopleService.createPerson(foundUser, [firstName: firstNameFromRequest(),
-			lastName: lastNameFromRequest(),
-			email: emailFromRequest(),
-			phone: phoneFromRequest()
-			])
-
-		log.info "Person created: ${person.firstName} ${person.lastName}"
-
-		def candidateObj = peopleService.createCandidate(person, [legalStatus: legalStatusFromRequest()])
-
-		log.info "Candidate created for person named ${person.firstName} ${person.lastName}"
-
-		render(contentType: JSON_CONTENT_TYPE) {
-					candidate(username: foundUser.username, 
-						accessToken: foundUser.accessToken,
-						passwordExpired: foundUser.passwordExpired,
-						accountExpired: foundUser.accountExpired,
-						accountLocked: foundUser.accountLocked,
-						firstName: person.firstName,
-						lastName: person.lastName,
-						email: person.email,
-						legalStatus: candidateObj.legalStatus)
-				}
     }
 
     private String phoneFromRequest(){

@@ -3,6 +3,7 @@ import com.jobquest.security.*
 import grails.plugin.springsecurity.annotation.Secured
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static grails.async.web.WebPromises.*
 
 class SecurityController {
 	static String JSON_CONTENT_TYPE='application/json'
@@ -11,41 +12,45 @@ class SecurityController {
 	def securityService
 	
 	def createNewUser(){
-		if(!verifyInput()) { return }
+		task{
+			if(!verifyInput()) { return }
 
-		def newUser = securityService.createLogin(usernameFromRequest(), passwordFromRequest())
+			def newUser = securityService.createLogin(usernameFromRequest(), passwordFromRequest())
 
-		if(newUser){
-			render(contentType: JSON_CONTENT_TYPE) {
-					user(username: newUser.username, 
-						accessToken: newUser.accessToken,
-						passwordExpired: newUser.passwordExpired,
-						accountExpired: newUser.accountExpired,
-						accountLocked: newUser.accountLocked)
-				}
-		}else{
-			log.info "User not created: ${usernameFromRequest()}"
-			render(status: 500, text: "User not created: ${usernameFromRequest()}")
+			if(newUser){
+				render(contentType: JSON_CONTENT_TYPE) {
+						user(username: newUser.username, 
+							accessToken: newUser.accessToken,
+							passwordExpired: newUser.passwordExpired,
+							accountExpired: newUser.accountExpired,
+							accountLocked: newUser.accountLocked)
+					}
+			}else{
+				log.info "User not created: ${usernameFromRequest()}"
+				render(status: 500, text: "User not created: ${usernameFromRequest()}")
+			}
 		}
 	}
 
     def login(){
-		if(!verifyInput()) { return }
+    	task{
+			if(!verifyInput()) { return }
 
-		def foundUser = securityService.login(usernameFromRequest(), passwordFromRequest())
-		
-		if(foundUser){
-			log.info "User has been authenticated: ${foundUser.username}"
-			render(contentType: JSON_CONTENT_TYPE) {
-				user(username: foundUser.username, 
-					accessToken: foundUser.accessToken,
-					passwordExpired: foundUser.passwordExpired,
-					accountExpired: foundUser.accountExpired,
-					accountLocked: foundUser.accountLocked)
+			def foundUser = securityService.login(usernameFromRequest(), passwordFromRequest())
+			
+			if(foundUser){
+				log.info "User has been authenticated: ${foundUser.username}"
+				render(contentType: JSON_CONTENT_TYPE) {
+					user(username: foundUser.username, 
+						accessToken: foundUser.accessToken,
+						passwordExpired: foundUser.passwordExpired,
+						accountExpired: foundUser.accountExpired,
+						accountLocked: foundUser.accountLocked)
+				}
+			}else{
+				log.info "User not authenticated: ${usernameFromRequest()}"
+				render(status: 401, text: "user authentication failed: invalid credentials")
 			}
-		}else{
-			log.info "User not authenticated: ${usernameFromRequest()}"
-			render(status: 401, text: "user authentication failed: invalid credentials")
 		}
 	}
 

@@ -64,7 +64,7 @@ paths:
           in: formData
           required: true
           type: string
-        - name: password
+        - name: accessToken
           in: formData
           required: true
           type: string
@@ -81,6 +81,10 @@ paths:
           type: string
           required: true
         - name: phone
+          in: formData
+          type: string
+          required: true
+        - name: legalStatus
           in: formData
           type: string
           required: true
