@@ -9,5 +9,6 @@ class Reference {
     	position blank: true
     }
 
-    Person person
+    static hasMany = [people:Person]
+    static belongsTo = Person
 }
