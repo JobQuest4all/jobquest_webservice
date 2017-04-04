@@ -12,7 +12,7 @@ produces:
 consumes:
   - application/x-www-form-urlencoded
 paths:
-  /security/users:
+  /users:
     post:
       summary: Create new user to login
       parameters:
@@ -33,7 +33,7 @@ paths:
             type: object
             allOf:
               - $ref: '#/definitions/User'
-  /security/login:
+  /users/login:
     post:
       summary: login a user
       tags:
@@ -54,7 +54,7 @@ paths:
             type: object
             allOf:
               - $ref: '#/definitions/User'
-  /people/candidates:
+  /candidates:
     post:
       summary: create a candidate
       tags:
@@ -77,14 +77,6 @@ paths:
           type: string
           required: true
         - name: email
-          in: formData
-          type: string
-          required: true
-        - name: phone
-          in: formData
-          type: string
-          required: true
-        - name: legalStatus
           in: formData
           type: string
           required: true
