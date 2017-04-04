@@ -18,7 +18,6 @@ class PeopleService {
 			person = new Person(firstName: params.firstName,
 				lastName: params.lastName,
 				email: params.email,
-				phone: params.phone,
 				user: user
 				).save(failOnError: true)
 		}
@@ -26,13 +25,13 @@ class PeopleService {
 		person
 	}
 
-    def createCandidate(Person person, HashMap params) {
-    	if(!person || !params){return null}
+    def createCandidate(Person person) {
+    	if(!person){return null}
 
     	def candidate = Candidate.findById(person.id)
 
 		if(!candidate){
-			candidate = new Candidate(person: person, legalStatus: params.legalStatus).save(failOnError: true)
+			candidate = new Candidate(person: person).save(failOnError: true)
 		}
 
 		candidate

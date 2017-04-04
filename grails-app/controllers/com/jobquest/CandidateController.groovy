@@ -8,10 +8,10 @@ class CandidateController {
 	static String JSON_CONTENT_TYPE='application/json'
 	SecurityService securityService
 	PeopleService peopleService
-	def log = LoggerFactory.getLogger("grails.app.controller.CandidateController")
+	def log = LoggerFactory.getLogger("grails.app.controllers.com.jobquest.CandidateController")
 
     def save() {
-    	task{
+    	
 			if(!verifyInput()) { return }
 
 			log.info "username from request: ${usernameFromRequest()}"
@@ -19,7 +19,6 @@ class CandidateController {
 			log.info "firstName from request: ${firstNameFromRequest()}"
 			log.info "lastName from request: ${lastNameFromRequest()}"
 			log.info "email from request: ${emailFromRequest()}"
-			log.info "phone from request: ${phoneFromRequest()}"
 
 			def foundUser = securityService.refreshLogin(usernameFromRequest(), accessTokenFromRequest())
 
@@ -33,13 +32,12 @@ class CandidateController {
 
 			def person = peopleService.createPerson(foundUser, [firstName: firstNameFromRequest(),
 				lastName: lastNameFromRequest(),
-				email: emailFromRequest(),
-				phone: phoneFromRequest()
+				email: emailFromRequest()
 				])
 
 			log.info "Person created: ${person.firstName} ${person.lastName}"
 
-			def candidateObj = peopleService.createCandidate(person, [legalStatus: legalStatusFromRequest()])
+			def candidateObj = peopleService.createCandidate(person)
 
 			log.info "Candidate created for person named ${person.firstName} ${person.lastName}"
 
@@ -51,10 +49,9 @@ class CandidateController {
 							accountLocked: foundUser.accountLocked,
 							firstName: person.firstName,
 							lastName: person.lastName,
-							email: person.email,
-							legalStatus: candidateObj.legalStatus)
+							email: person.email)
 					}
-		}
+		
     }
 
     private String phoneFromRequest(){

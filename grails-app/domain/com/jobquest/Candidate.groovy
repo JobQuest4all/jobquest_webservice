@@ -1,15 +1,17 @@
 package com.jobquest
 
 class Candidate {
-	static def LegalStatuses=[USCitizen: 'US Citizen', 
+	static def LegalStatuses=[
+	USCitizen: 'US Citizen', 
 	GreenCard:'Green Card', 
-	Visa: 'Visa']
+	Visa: 'Visa',
+	Other: 'Other']
 
 	String legalStatus=''
 
     static constraints = {
     	person nullable: false, unique: true
-    	legalStatus blank: true
+    	legalStatus nullable: true
     }
 
     Person person

@@ -11,7 +11,7 @@ class Person {
     	firstName blank: false, minSize: 2, matches: '[\\p{Alpha}]+[\']*[\\p{Alpha}]*'
     	lastName blank: false, minSize: 2, matches: '[\\p{Alpha}]+[\']*[\\p{Alpha}]*'
     	email email: true, blank: false, unique: true
-    	phone blank: true, matches: '\\+{0,1}[0-9]*.*[0-9]{3}.*[0-9]{3}.*[0-9]{4}'
+    	phone nullable: true, matches: '\\+{0,1}[0-9]*.*[0-9]{3}.*[0-9]{3}.*[0-9]{4}'
     	user nullable: true
         employee nullable: true
     }
