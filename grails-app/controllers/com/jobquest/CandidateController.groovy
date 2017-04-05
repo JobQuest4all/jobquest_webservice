@@ -55,31 +55,31 @@ class CandidateController {
     }
 
     private String phoneFromRequest(){
-    	params.phone
+    	request.JSON.getString('phone')
     }
 
     private String legalStatusFromRequest(){
-    	params.legalStatus
+    	request.JSON.getString('legalStatus')
     }
 
     private String emailFromRequest(){
-    	params.email
+    	request.JSON.getString('email')
     }
 
     private String lastNameFromRequest(){
-    	params.lastName
+    	request.JSON.getString('lastName')
     }
 
     private String firstNameFromRequest(){
-    	params.firstName
+    	request.JSON.getString('firstName')
     }
 
     private String accessTokenFromRequest(){
-    	params.accessToken
+    	request.JSON.getString('accessToken')
     }
 
     private String usernameFromRequest(){
-    	params.username
+    	request.JSON.getString('username')
     }
 
     private boolean verifyInput(){

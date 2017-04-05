@@ -49,11 +49,11 @@ class UserController {
 	}
 
 	private String usernameFromRequest(){
-		params.username
+		request.JSON.getString('username')
 	}
 
 	protected String passwordFromRequest(){
-		params.password
+		request.JSON.getString('password')
 	}
 
 	/*

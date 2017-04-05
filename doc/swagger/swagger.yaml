@@ -10,20 +10,22 @@ schemes:
 produces:
   - application/json
 consumes:
-  - application/x-www-form-urlencoded
+  - application/json
 paths:
   /users:
     post:
       summary: Create new user to login
       parameters:
-        - name: username
-          in: formData
+        - name: user info
+          in: body
           required: true
-          type: string
-        - name: password
-          in: formData
-          required: true
-          type: string
+          schema:
+            type: object
+            properties:
+              username: 
+                type: string
+              password:
+                type: string
       tags:
         - Create a new user
       responses:
@@ -39,14 +41,16 @@ paths:
       tags:
         - Login a user
       parameters:
-        - name: username
-          in: formData
+        - name: user info
+          in: body
           required: true
-          type: string
-        - name: password
-          in: formData
-          required: true
-          type: string
+          schema:
+            type: object
+            properties:
+              username: 
+                type: string
+              password:
+                type: string
       responses:
         200:
           description: newly-created user
@@ -60,26 +64,22 @@ paths:
       tags:
         - Create a candidate
       parameters:
-        - name: username
-          in: formData
+        - name: candidate info
+          in: body
           required: true
-          type: string
-        - name: accessToken
-          in: formData
-          required: true
-          type: string
-        - name: firstName
-          in: formData
-          type: string
-          required: true
-        - name: lastName
-          in: formData
-          type: string
-          required: true
-        - name: email
-          in: formData
-          type: string
-          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              accessToken:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
       responses:
         200:
           description: newly-created user
@@ -93,8 +93,14 @@ definitions:
     properties:
       username: 
         type: string
-      password:
+      accessToken:
         type: string
+      passwordExpired:
+        type: boolean
+      accountExpired:
+        type: boolean
+      accountLocked:
+        type: boolean
   Person:
     type: object
     allOf:
