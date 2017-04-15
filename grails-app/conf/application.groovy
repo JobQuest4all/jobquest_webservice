@@ -6,3 +6,14 @@ grails.plugin.springsecurity.requestMap.className = 'com.jobquest.security.Reque
 grails.plugin.springsecurity.securityConfigType = 'Requestmap'
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+
+grails {
+   mail {
+     host = "smtp.gmail.com"
+     port = 587
+     username = "jobquest4all@gmail.com"
+     password = "jquest123"
+     props = ["mail.smtp.auth":"true",
+              "mail.smtp.starttls.enable":"true"]
+   }
+}

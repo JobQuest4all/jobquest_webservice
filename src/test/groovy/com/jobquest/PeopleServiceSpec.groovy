@@ -12,10 +12,8 @@ import org.springframework.security.providers.encoding.*
 import com.jobquest.security.*
 
 @TestFor(PeopleService)
-@TestMixin(GrailsUnitTestMixin)
 @Mock([LoginAuthenticity, Person, Candidate])
 class PeopleServiceSpec extends Specification {
-	static loadExternalBeans = true
 
     void "test createPerson"() {
     	given:
@@ -49,7 +47,7 @@ class PeopleServiceSpec extends Specification {
             ).save()
 
         when:
-        def candidate = service.createCandidate(stubPerson,[legalStatus:Candidate.LegalStatuses.USCitizen])
+        def candidate = service.createCandidate(stubPerson)
 
         then:
         Candidate.where{person == stubPerson}
